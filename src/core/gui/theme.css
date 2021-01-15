@@ -1,7 +1,7 @@
 body {
   margin:0;
   background-color: #fff;
-  background: url(../core/gui/img/linedpaper.png);
+  background: url(./img/linedpaper.png);
   color: #504f4f;
   font-size: 2em;
 }

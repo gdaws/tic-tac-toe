@@ -1,8 +1,9 @@
+import Game from '../../core/gui/game';
 
 function Page({playerX, playerO}) {
   return (
     <div>
-      {playerX.type} vs {playerO.type}
+      <Game playerX={playerX} playerO={playerO} />
     </div>
   );
 }
