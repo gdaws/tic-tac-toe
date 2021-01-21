@@ -50,8 +50,6 @@ function getPositionScore(board, turn, player, opponent) {
 }
 
 export function getNextPlayPosition(prevBoard, player, opponent, skill) {
-  
-  console.log(player, skill);
 
   const board = [...prevBoard];
 

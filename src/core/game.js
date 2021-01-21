@@ -77,4 +77,8 @@ export class Game {
   finished() {
     return null !== this.winner || findEmptySpaces(this.board).length === 0;
   }
+
+  winnerPlayer() {
+    return this.winner && this.board[lines[this.winner][0]];
+  }
 };

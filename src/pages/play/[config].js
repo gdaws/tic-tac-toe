@@ -1,9 +1,19 @@
+import {useState} from 'react';
 import Game from '../../core/gui/game';
 
 function Page({playerX, playerO}) {
+
+  const [counter, setCounter] = useState(1);
+  const [finished, setFinished] = useState(false);
+  
+  const handleGameOver = ({winner}) => {
+    console.log('gameover winner', winner);
+    setFinished(true);
+  };
+
   return (
     <div>
-      <Game playerX={playerX} playerO={playerO} />
+      <Game id={counter} playerX={playerX} playerO={playerO} onGameOver={handleGameOver} />
     </div>
   );
 }

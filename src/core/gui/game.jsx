@@ -81,6 +81,8 @@ export default function GameComponent(props) {
       view();
   
       console.log('Player moves', game.moves);
+
+      props.onGameOver({winner: game.winnerPlayer(), moves: game.moves});
     };
 
     run();
