@@ -67,21 +67,26 @@ export default function GameComponent(props) {
 
     const run = async () => {
 
-      game.restart();
-  
-      while (runable && !game.finished()) {
+      try {
+        while (runable && !game.finished()) {
         
-        view();
-  
-        const input = controllers[game.turn]();
-  
-        game.play(await input);
+          view();
+    
+          const input = controllers[game.turn]();
+
+          if (props.onPlayerTurn) {
+            props.onPlayerTurn(game.turn);
+          }
+
+          game.play(await input);
+        }
       }
-  
+      catch (error) {
+        return;
+      }
+
       view();
   
-      console.log('Player moves', game.moves);
-
       props.onGameOver({winner: game.winnerPlayer(), moves: game.moves});
     };
 
@@ -91,7 +96,7 @@ export default function GameComponent(props) {
       runable = false;
       clickInputSource.interrupt(new Error('game shutdown'));
     };
-  });
+  }, [props.id]);
 
   return (
     <div className="board" ref={container} />
