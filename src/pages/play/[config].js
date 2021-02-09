@@ -1,19 +1,61 @@
 import {useState} from 'react';
+import {PLAYER_X, PLAYER_O} from '../../core/game';
 import Game from '../../core/gui/game';
+import styles from '../../styles/Play.module.css';
+
+function Player({mark, score, selected}) {
+
+  return (
+    <div className={styles.player + ' ' + (selected ? styles.selected : '')}>
+      <span className={styles.playerMark}>{mark}</span>
+      <span className={styles.playerScore}>{score}</span>
+    </div>
+  );
+}
 
 function Page({playerX, playerO}) {
 
-  const [counter, setCounter] = useState(1);
-  const [finished, setFinished] = useState(false);
-  
+  const [game, setGame] = useState({
+    round: 0,
+    finished: false,
+    turn: null
+  });
+
+  const [score, setScore] = useState({
+    tally: [0, 0],
+    winner: null
+  });
+
   const handleGameOver = ({winner}) => {
-    console.log('gameover winner', winner);
-    setFinished(true);
+
+    setGame({
+      ...game,
+      finished: true,
+      turn: null
+    });
+
+    setScore({
+      tally: [winner == 1 ? score.tally[0] + 1 : score.tally[0], winner == 2 ? score.tally[1] + 1 : score.tally[1]],
+      winner
+    });
+  };
+
+  const handlePlay = () => {
+    setGame({...game, finished: false, round: game.round + 1});
+  };
+
+  const handlePlayerTurn = (turn) => {
+    setGame({...game, turn});
   };
 
   return (
     <div>
-      <Game id={counter} playerX={playerX} playerO={playerO} onGameOver={handleGameOver} />
+      <div className={styles.topMenu}>
+        <Player mark="X" score={score.tally[0]} selected={game.turn == PLAYER_X} />
+        <Player mark="O" score={score.tally[1]} selected={game.turn == PLAYER_O} />
+        <button type="button" onClick={handlePlay}>Restart Game</button>
+      </div>
+      <Game id={game.round} playerX={playerX} playerO={playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
     </div>
   );
 }
