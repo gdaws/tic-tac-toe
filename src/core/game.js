@@ -79,6 +79,6 @@ export class Game {
   }
 
   winnerPlayer() {
-    return this.winner && this.board[lines[this.winner][0]];
+    return null !== this.winner ? this.board[lines[this.winner][0]] : null;
   }
 };
