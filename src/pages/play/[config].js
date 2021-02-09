@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import Page from '../../components/layout/Page';
 import {PLAYER_X, PLAYER_O} from '../../core/game';
 import Game from '../../core/gui/game';
 import styles from '../../styles/Play.module.css';
@@ -13,7 +14,7 @@ function Player({mark, score, selected}) {
   );
 }
 
-function Page({playerX, playerO}) {
+function PlayPage({playerX, playerO}) {
 
   const [game, setGame] = useState({
     round: 0,
@@ -49,14 +50,14 @@ function Page({playerX, playerO}) {
   };
 
   return (
-    <div>
+    <Page>
       <div className={styles.topMenu}>
         <Player mark="X" score={score.tally[0]} selected={game.turn == PLAYER_X} />
         <Player mark="O" score={score.tally[1]} selected={game.turn == PLAYER_O} />
         <button type="button" onClick={handlePlay}>Restart Game</button>
       </div>
       <Game id={game.round} playerX={playerX} playerO={playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
-    </div>
+    </Page>
   );
 }
 
@@ -105,4 +106,4 @@ export async function getStaticProps(context) {
   }};
 }
 
-export default Page;
+export default PlayPage;
