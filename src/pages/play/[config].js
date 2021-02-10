@@ -19,7 +19,7 @@ function Player({mark, score, selected}) {
   );
 }
 
-function GameOver({play, draw}) {
+function GameOver({play}) {
 
   const [visible, setVisible] = useState(false);
 
@@ -64,9 +64,7 @@ function PlayPage({playerX, playerO}) {
   const [game, setGame] = useState({
     round: 0,
     finished: false,
-    turn: null,
-    playerX,
-    playerO
+    turn: null
   });
 
   const [score, setScore] = useState({
@@ -115,7 +113,7 @@ function PlayPage({playerX, playerO}) {
           </div>
           <div className={styles.gameArea}>
             {game.finished ? <GameOver play={handlePlay} draw={score.winner === null} /> : null} 
-            <Game id={game.round} playerX={game.playerX} playerO={game.playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
+            <Game id={game.round} playerX={playerX} playerO={playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
           </div>
         </Box3Container>
       </Overlay>
@@ -161,13 +159,15 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false
+    fallback: true
   }
 }
 
 export async function getStaticProps(context) {
 
-  const elements = context.params.config.match(/^(p|c\d)v(p|c\d)$/);
+  const config = context.params.config;
+
+  const elements = config.match(/^(p|c\d)v(p|c\d)$/);
 
   if (!elements) {
     throw new Error('invalid config token');
@@ -187,6 +187,7 @@ export async function getStaticProps(context) {
   };
 
   return {props: {
+    key: config,
     playerX: playerConfig(elements[1]), 
     playerO: playerConfig(elements[2])
   }};
