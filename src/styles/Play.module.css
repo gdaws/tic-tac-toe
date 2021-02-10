@@ -1,0 +1,50 @@
+
+.topMenu {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.25em;
+  margin-bottom: 0.25em;
+  background-color: #fff;
+  box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+}
+
+.player {
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 0.1em solid transparent;
+  border-radius: 2em;
+  padding: 0.05em 0.5em;
+}
+
+.playerMark {
+  opacity: 0.6;
+  margin-right: 1em;
+}
+
+.player.selected {
+  border: 0.1em solid #703D6F;
+  transition: border-color 2000ms ease;
+}
+
+.playButton {
+  font-size: 5vh;
+  border: 0.1em solid white;
+  box-shadow: 0.1em 0.1em 0.25em rgba(0, 0, 0, 0.5);
+  animation: throbbing 1s ease;
+  animation-iteration-count: infinite;
+}
+
+.playButton:active {
+  box-shadow: none;
+}
+
+.gameoverOverlay {
+  transition: opacity 500ms ease-in;
+}
+
+@keyframes throbbing {
+  0% { transform: scale(1); filter: brightness(1); }
+  50%  { transform: scale(1.05); filter: brightness(1.5); }
+  100% { transform: scale(1); filter: brightness(1); }
+}

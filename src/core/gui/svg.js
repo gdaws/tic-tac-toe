@@ -17,9 +17,9 @@ export function svgRoot() {
 
   const el = svg('svg', {
     version: '1.0',
+    viewBox: viewbox.join(' '),
     width: '100%',
-    height: '100%',
-    viewBox: viewbox.join(' ')
+    height: '100%'
   });
 
   el.style = 'fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;pointer-events:bounding-box;';

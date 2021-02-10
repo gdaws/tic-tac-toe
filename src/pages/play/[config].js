@@ -1,5 +1,8 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Page from '../../components/layout/Page';
+import Overlay from '../../components/layout/Overlay';
+import Box3Container from '../../components/layout/Box3Container';
+import Centered from '../../components/layout/Centered';
 import {PLAYER_X, PLAYER_O} from '../../core/game';
 import Game from '../../core/gui/game';
 import styles from '../../styles/Play.module.css';
@@ -11,6 +14,29 @@ function Player({mark, score, selected}) {
       <span className={styles.playerMark}>{mark}</span>
       <span className={styles.playerScore}>{score}</span>
     </div>
+  );
+}
+
+function GameOver({play, draw}) {
+
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!visible) {
+      setTimeout(() => {
+        setVisible(true);
+      }, 10);
+    }
+  });
+
+  return (
+    <Overlay onClick={play}>
+      <Centered>
+        <div className={styles.gameoverOverlay} style={{opacity: visible ? '1' : '0'}}>
+          <button onClick={play} className={styles.playButton}>Play Again</button>
+        </div>
+      </Centered>
+    </Overlay>
   );
 }
 
@@ -51,12 +77,18 @@ function PlayPage({playerX, playerO}) {
 
   return (
     <Page>
-      <div className={styles.topMenu}>
-        <Player mark="X" score={score.tally[0]} selected={game.turn == PLAYER_X} />
-        <Player mark="O" score={score.tally[1]} selected={game.turn == PLAYER_O} />
-        <button type="button" onClick={handlePlay}>Restart Game</button>
-      </div>
-      <Game id={game.round} playerX={playerX} playerO={playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
+      <Overlay>
+        <Box3Container>
+          <div className={styles.topMenu}>
+            <Player mark="X" score={score.tally[0]} selected={game.turn == PLAYER_X} />
+            <Player mark="O" score={score.tally[1]} selected={game.turn == PLAYER_O} />
+          </div>
+          <div className={styles.gameArea}>
+            {game.finished ? <GameOver play={handlePlay} draw={score.winner === null} /> : null} 
+            <Game id={game.round} playerX={playerX} playerO={playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
+          </div>
+        </Box3Container>
+      </Overlay>
     </Page>
   );
 }
