@@ -32,7 +32,7 @@ button:active {
   fill: rgba(245, 239, 66, 0.85);
 }
 
-.board.player-o path {
+.board .player-o path {
   fill: rgba(131, 131, 131, 0.95);
 }
 
