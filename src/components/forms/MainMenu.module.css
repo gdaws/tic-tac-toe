@@ -54,3 +54,17 @@
   display: block;
   width: 100%;
 }
+
+.container select {
+  padding: 0.5em 1em;
+  background-color: rgba(0, 0, 0, 0.05);
+  background-image: url('../images/down-arrow.svg');
+  background-repeat: no-repeat;
+  background-position: right 0.25em top 0.65em;
+  background-size: 15%;
+  color: rgba(0, 0, 0, 0.8);
+  border: none;
+  border-radius: 1em;
+  appearance: none;
+  cursor: pointer;
+}

@@ -144,7 +144,7 @@ export function generateUrl(config) {
     return 'p';
   };
 
-  return `/play/${token(config.playerX)}v${token(config.playerO)}.html`;
+  return `/play/${token(config.playerX)}v${token(config.playerO)}`;
 }
 
 export async function getStaticPaths() {
