@@ -1,8 +1,10 @@
 import {useEffect, useState} from 'react';
+import { useRouter } from 'next/router';
 import Page from '../../components/layout/Page';
 import Overlay from '../../components/layout/Overlay';
 import Box3Container from '../../components/layout/Box3Container';
 import Centered from '../../components/layout/Centered';
+import MainMenu from '../../components/forms/MainMenu';
 import {PLAYER_X, PLAYER_O} from '../../core/game';
 import Game from '../../core/gui/game';
 import styles from '../../styles/Play.module.css';
@@ -40,12 +42,31 @@ function GameOver({play, draw}) {
   );
 }
 
+function MainMenuOverlay({playerConfig, onHide, onSubmit}) {
+
+  return (
+    <Overlay onClick={onHide}>
+      <Centered>
+        <MainMenu 
+          value={playerConfig} 
+          onSubmit={onSubmit} />
+      </Centered>
+    </Overlay>
+  );
+}
+
 function PlayPage({playerX, playerO}) {
+
+  const router = useRouter();
+
+  const [menu, setMenu] = useState(false);
 
   const [game, setGame] = useState({
     round: 0,
     finished: false,
-    turn: null
+    turn: null,
+    playerX,
+    playerO
   });
 
   const [score, setScore] = useState({
@@ -75,6 +96,14 @@ function PlayPage({playerX, playerO}) {
     setGame({...game, turn});
   };
 
+  const handleMainMenuClick = () => {
+    setMenu(true);
+  };
+
+  const playNewGame = (config) => {
+    router.push(generateUrl(config));
+  };
+
   return (
     <Page>
       <Overlay>
@@ -82,15 +111,40 @@ function PlayPage({playerX, playerO}) {
           <div className={styles.topMenu}>
             <Player mark="X" score={score.tally[0]} selected={game.turn == PLAYER_X} />
             <Player mark="O" score={score.tally[1]} selected={game.turn == PLAYER_O} />
+            <button onClick={handleMainMenuClick}>Main Menu</button>
           </div>
           <div className={styles.gameArea}>
             {game.finished ? <GameOver play={handlePlay} draw={score.winner === null} /> : null} 
-            <Game id={game.round} playerX={playerX} playerO={playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
+            <Game id={game.round} playerX={game.playerX} playerO={game.playerO} onPlayerTurn={handlePlayerTurn} onGameOver={handleGameOver} />
           </div>
         </Box3Container>
       </Overlay>
+      {menu ? <MainMenuOverlay playerConfig={{playerX, playerO}} onHide={() => setMenu(false)} onSubmit={playNewGame} /> : null }
     </Page>
   );
+}
+
+export function generateUrl(config) {
+  
+  const token = (player) => {
+  
+    if ('human' === player.type) {
+      return 'p';
+    }
+
+    switch (player.skill) {
+      case 'low':
+        return 'c1';
+      case 'medium':
+        return 'c2';
+      case 'high':
+        return 'c3';
+    }
+
+    return 'p';
+  };
+
+  return `/play/${token(config.playerX)}v${token(config.playerO)}.html`;
 }
 
 export async function getStaticPaths() {

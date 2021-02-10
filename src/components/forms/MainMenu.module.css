@@ -1,0 +1,56 @@
+
+.container {
+  font-size: 3vh;
+  padding: 1em 3em;
+  border-radius: 0.5em;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  box-shadow: 0.25em 0.25em 1em rgba(0, 0, 0, 0.5);
+}
+
+.top {
+  text-align: center;
+}
+
+.bottom {
+  margin-top: 1em;
+}
+
+.middle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.middle > div {
+  flex: 1 1 auto;
+}
+
+.formGroup {
+  display: inline-block;
+  margin: 0.25em;
+  vertical-align: top;
+}
+
+.formGroup select {
+  display: block;
+  width: 100%;
+  margin: 0.25em 0;
+  font-size: 2vh;
+}
+
+.iconLogo {
+  display: inline-block;
+  width: 10em;
+  height: 10em;
+  background: url(../images/logo.svg) no-repeat;
+}
+
+.container button {
+  font-size: 0.84em;
+  display: block;
+  width: 100%;
+}
